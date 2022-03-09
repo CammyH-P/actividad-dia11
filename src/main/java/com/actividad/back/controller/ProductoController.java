@@ -3,6 +3,7 @@ package com.actividad.back.controller;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,19 +28,29 @@ public class ProductoController {
 	@Autowired
 	private ProductoRepository repositorio;
 	
-	@ApiOperation(value = "Get all products")
+	@ApiOperation(value = "Obtener todos productos",
+	notes="Regresa una lista con todos los productos que se encuentren en la base de datos")
 	@GetMapping()
 	public List<ProductoModel> obtenerProductos() {
 		return repositorio.findAll();
 	}
 	
-	@ApiOperation(value = "Add a new product")
+	@ApiOperation(value = "Obtener un producto de acuerdo a un id",
+			notes="Muestra los datos de un producto que coincida con el id dado")
+	@GetMapping("/{id}")
+	public Optional<ProductoModel> obtenerProductoId(@PathVariable Long id) {
+		Optional<ProductoModel>producto = repositorio.findById(id);
+		return producto;
+	}
+	
+	@ApiOperation(value = "Agregar un nuevo producto",
+	notes="Realizar la insercion de un nuevo producto en la base de datos ")
 	@PostMapping()
 	public ProductoModel agregarProducto(@RequestBody ProductoModel producto) {
 		return repositorio.save(producto);
 	}
 	
-	@ApiOperation(value = "Update product by Id")
+	@ApiOperation(value = "Actualizar un producto por Id",notes="Actualiza los datos de un producto en la base de datos ")
 	@PutMapping("/{id}")
 	public ResponseEntity<ProductoModel> actualizarProducto(@PathVariable Long id, @RequestBody ProductoModel detalleProducto) {
 		ProductoModel producto = repositorio.findById(id)
@@ -52,7 +63,8 @@ public class ProductoController {
 		return ResponseEntity.ok(productoActualizada);
 	}
 	
-	@ApiOperation(value = "Delete product by Id")
+	@ApiOperation(value = "Eliminar un producto por Id",
+	notes="Elimina todos los datos de un producto en la base de datos ")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Map<String, Boolean>> eliminarProducto(@PathVariable Long id) {
 		ProductoModel producto = repositorio.findById(id)
