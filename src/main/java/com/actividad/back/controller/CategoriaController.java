@@ -3,6 +3,7 @@ package com.actividad.back.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,6 @@ import com.actividad.back.model.CategoriaModel;
 import com.actividad.back.repository.CategoriaRepository;
 
 import io.swagger.annotations.ApiOperation;
-
-
 import com.actividad.back.exception.ResourceNotFoundExceptions;
 
 @RestController
@@ -29,21 +28,33 @@ public class CategoriaController {
 	@Autowired
 	private CategoriaRepository repositorio;
 
-	@ApiOperation(value = "Get all Categories")
+	@ApiOperation(value = "Obtener todas la categorias",
+			notes="Regresa una lista de todas la categorias que esten registradas en la base de datos")
 	@GetMapping()
 	public List<CategoriaModel> obtenerCategorias() {
 		return repositorio.findAll();
 	}
 	
-	@ApiOperation(value = "Add a new category")
+	@ApiOperation(value = "Obtener una categoria de acuerdo a un id",
+			notes="Muestra los datos de una categoria que coincida con el id daado")
+	@GetMapping("/{id}")
+	public Optional<CategoriaModel> obtenerCategoriaId(@PathVariable Long id) {
+		Optional<CategoriaModel>categoria = repositorio.findById(id);
+		return categoria;
+	}
+	
+	
+	@ApiOperation(value = "Agregar una categoria",
+			notes="Realizar la insercion de una nueva categoria en la base de datos ")
 	@PostMapping()
 	public CategoriaModel agregarCategoria(@RequestBody CategoriaModel categoria) {
 		return repositorio.save(categoria);
 	}
 	
-	@ApiOperation(value = "Update category by Id")
+	@ApiOperation(value = "Actualizar una categoria de acuerdo al Id",
+			notes="Actualiza los datos de una categoria en la base de datos ")
 	@PutMapping("/{id}")
-	public ResponseEntity<CategoriaModel> actualizarCuentaId(@PathVariable Long id, @RequestBody CategoriaModel detalleCategoria) {
+	public ResponseEntity<CategoriaModel> actualizarCategoriaId(@PathVariable Long id, @RequestBody CategoriaModel detalleCategoria) {
 		CategoriaModel categoria = repositorio.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundExceptions("No hay elementos relacionados"));
 
@@ -52,7 +63,8 @@ public class CategoriaController {
 		return ResponseEntity.ok(categoriaActualizada);
 	}
 
-	@ApiOperation(value = "Delete category by Id")
+	@ApiOperation(value = "Eliminar una categoria de acuerdo al Id",
+			notes="Elimina todo los datos de una categoria en la base de datos ")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Map<String, Boolean>> eliminarCategoria(@PathVariable Long id) {
 		CategoriaModel categoria = repositorio.findById(id)
