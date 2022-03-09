@@ -20,8 +20,6 @@ import com.actividad.back.model.CategoriaModel;
 import com.actividad.back.repository.CategoriaRepository;
 
 import io.swagger.annotations.ApiOperation;
-
-
 import com.actividad.back.exception.ResourceNotFoundExceptions;
 
 @RestController

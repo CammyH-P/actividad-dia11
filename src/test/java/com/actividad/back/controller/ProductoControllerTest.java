@@ -1,10 +1,10 @@
 package com.actividad.back.controller;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.List;
 import java.util.Optional;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +19,7 @@ public class ProductoControllerTest {
 	Long id= Long.valueOf(i);
 		@Autowired
 		ProductoController ProductoController;
-		
-		
+			
 		@Test
 		public void obtenerProductos() {
 			List<ProductoModel> Producto;
@@ -46,7 +45,6 @@ public class ProductoControllerTest {
 		
 		@Test
 		public void eliminarProducto() {
-			
 			ProductoController.eliminarProducto((long) 5);
 			assertEquals(Optional.empty(), ProductoController.obtenerProductoId((long) 5));
 		}

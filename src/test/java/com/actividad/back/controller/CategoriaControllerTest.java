@@ -17,8 +17,7 @@ public class CategoriaControllerTest {
 int i=12;
 Long id= Long.valueOf(i);
 	@Autowired
-	CategoriaController categoriaController;
-	
+	CategoriaController categoriaController;	
 	
 	@Test
 	public void obtenerCategorias() {
@@ -45,7 +44,6 @@ Long id= Long.valueOf(i);
 	
 	@Test
 	public void eliminarCategoria() {
-
 		categoriaController.eliminarCategoria((long) 2);
 		assertEquals(Optional.empty(), categoriaController.obtenerCategoriaId(id));
 	}
